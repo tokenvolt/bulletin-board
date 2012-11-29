@@ -1,7 +1,9 @@
 BulletinBoard::Application.routes.draw do
+  root to: "home#index"
+ 
   devise_for :users
 
-  root to: "home#index"
+  resources :advertisements, except: :show  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,0 +1,11 @@
+= semantic_form_for @advertisement do |f|
+  = f.inputs do
+    = f.input :title
+    = f.input :image
+    = f.input :description, input_html: { rows: 5 }
+    = f.input :email
+    = f.input :city
+    = f.input :address
+  = f.actions do
+    = f.action :submit, button_html: { class: 'btn btn-primary'}
+    = f.action :cancel

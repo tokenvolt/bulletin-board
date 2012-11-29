@@ -37,14 +37,7 @@
     .container
 
       .row
-        .span4
-          .well.sidebar-nav
-            %h3 Sidebar
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-        .span8
-          = bootstrap_flash
-          = yield
+        = yield
 
     
       %footer

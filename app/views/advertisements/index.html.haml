@@ -1,0 +1,29 @@
+- model_class = Advertisement
+
+.span3
+  .well.sidebar-nav
+    %h3 Sidebar
+    %ul.nav.nav-list
+      %li.nav-header Sidebar
+.span9
+  %h1.center Advertisements
+  = bootstrap_flash
+  .advertisements
+    %table.table.table-hover
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:title)
+          %th= model_class.human_attribute_name(:email)
+          %th.pull-right= model_class.human_attribute_name(:created_at)
+      %tbody
+        - @advertisements.each do |advertisement|
+          %tr
+            %td
+              %p= advertisement.title
+            %td
+              %p= advertisement.email
+            %td
+              %p.pull-right= advertisement.created_at.strftime("%b %d, %H:%M")
+            %td= link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'
+    .center
+      =link_to "New Advertisement", new_advertisement_path, class: 'btn btn-primary'
