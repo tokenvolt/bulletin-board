@@ -1,13 +1,6 @@
-.span3
-  .well.sidebar-nav
-    %ul.nav.nav-list
-      %li.nav-header Categories
-      - @categories.each do |category|
-        %li= link_to category.title, category_path(category)
-.span9
-  %h1.center Advertisements
+.span12
   = bootstrap_flash
-  .advertisements
+  .advertisements  
     - model_class = Advertisement
     %table.table.table-hover
       %thead
@@ -25,5 +18,3 @@
             %td
               %p.pull-right= advertisement.created_at.strftime("%b %d, %H:%M")
             %td= link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'
-    .center
-      =link_to "New Advertisement", new_advertisement_path, class: 'btn btn-primary'

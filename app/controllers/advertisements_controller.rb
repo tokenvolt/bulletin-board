@@ -1,6 +1,7 @@
 class AdvertisementsController < ApplicationController
   def index
     @advertisements = Advertisement.all
+    @categories = Category.all
 
     respond_to do |format|
       format.html
@@ -55,5 +56,5 @@ class AdvertisementsController < ApplicationController
       format.html { redirect_to advertisements_url }
     end     
   end
-  
+
 end
