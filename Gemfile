@@ -20,8 +20,12 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'devise'
+gem 'formtastic'
+
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails', '2.1.4'
+gem 'formtastic-bootstrap'
 gem 'haml-rails'
 
 # To use ActiveModel has_secure_password
@@ -39,4 +43,3 @@ gem 'haml-rails'
 # To use debugger
 # gem 'debugger'
 
-gem 'devise'
