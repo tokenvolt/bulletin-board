@@ -1,6 +1,6 @@
 class AdvertisementsController < ApplicationController
   def index
-    @advertisements = Advertisement.all
+    @advertisements = Advertisement.order('created_at DESC')
     @categories = Category.all
 
     respond_to do |format|
