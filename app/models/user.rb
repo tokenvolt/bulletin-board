@@ -11,11 +11,11 @@ class User < ActiveRecord::Base
 
   ROLES = %w[admin advertiser]
 
-  def is_admin?
+  def admin?
     self.role == "admin"
   end
 
-  def is_advertiser?
+  def advertiser?
     self.role == "advertiser"
   end
 end

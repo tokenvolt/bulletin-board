@@ -1,6 +1,6 @@
 class AdvertisementsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :new]
-  before_filter :authorize, except: [:index, :new]
+  before_filter :authenticate_user!, except: [:index, :new, :create]
+  before_filter :authorize, except: [:index, :new, :create]
 
   def index
     @advertisements = Advertisement.order('created_at DESC')
@@ -60,8 +60,10 @@ class AdvertisementsController < ApplicationController
     end     
   end
 
+  private
+
   def authorize
-    unless user_signed_in? && current_user.is_admin?
+    unless user_signed_in? && current_user.admin?
       redirect_to advertisements_url, alert: "Unauthorized access"      
     end
   end
