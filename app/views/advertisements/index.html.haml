@@ -24,9 +24,9 @@
               %p= advertisement.email
             %td
               %p= advertisement.created_at.strftime("%b %d, %H:%M")
-            - if user_signed_in?
+            - if user_signed_in? && current_user.is_admin?
               %td
-                = link_to "Edit", advertisement_path(advertisement), :method => :put, class: 'btn btn-mini'              
+                = link_to "Edit", edit_advertisement_path(advertisement), class: 'btn btn-mini'              
                 = link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'
     .center
       =link_to "New Advertisement", new_advertisement_path, class: 'btn btn-primary'
