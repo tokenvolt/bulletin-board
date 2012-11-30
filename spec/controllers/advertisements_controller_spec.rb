@@ -9,7 +9,8 @@ describe AdvertisementsController do
                                           email: 'user@ex.com',
                                           city: "LA",
                                           address: "La, 12, 23")
-
+    @common_user = User.create(email: "user@example.com", password: '123456')
+    @admin_user = User.create(email: "admin@example.com", password: '123456', role: 'admin')
   end
 
   describe "POST create" do
@@ -23,9 +24,8 @@ describe AdvertisementsController do
     end
 
     context "if user is not an admin" do
-      it "creates new advertisement" do
-        common_user = User.create(email: "user@example.com", password: '123456')
-        sign_in common_user
+      it "creates new advertisement" do        
+        sign_in @common_user
         expect { 
           post :create, :advertisement => @new_advertisement.attributes.except('id', 'created_at', 'updated_at')
           }.to change { Advertisement.count }.by(1)        
@@ -42,18 +42,44 @@ describe AdvertisementsController do
   end
 
   describe "GET edit" do
-    it "redirects to advertisements index page if user is not an admin" do
-      common_user = User.create(email: "user@example.com", password: '123456')
-      sign_in common_user
-      get :edit, { id: @advertisement.id }
-      response.should redirect_to advertisements_url
+    context "if user is not an admin" do
+      it "redirects to advertisements index page" do
+        sign_in @common_user
+        get :edit, { id: @advertisement.id }
+        response.should redirect_to advertisements_url
+      end
     end
 
-    it "renders edit page if user is an admin" do
-      admin_user = User.create(email: "user@example.com", password: '123456', role: 'admin')
-      sign_in admin_user
-      get :edit, { id: @advertisement.id }
-      response.should render_template 'edit'
+    context "if user is an admin" do
+      it "renders edit page" do
+        sign_in @admin_user
+        get :edit, { id: @advertisement.id }
+        response.should render_template 'edit'
+      end
+    end
+  end
+
+  describe "PUT update" do
+    context "if user is not an admin" do
+      it "redirects to advertisements index page" do
+        sign_in @common_user
+        put :update, :id => @advertisement.id, :advertisement => { title: 'updated ad' }
+        response.should redirect_to advertisements_url
+      end
+
+      it "doesn't update advertisement" do
+        sign_in @common_user
+        put :update, :id => @advertisement.id, :advertisement => { title: 'updated ad' }
+        Advertisement.find(@advertisement.id).title.should_not == 'updated ad'
+      end
+    end
+
+    context "if user is an admin" do
+      it "renders edit page" do
+        sign_in @admin_user
+        put :update, :id => @advertisement.id, :advertisement => { title: 'updated ad' }
+        Advertisement.find(@advertisement.id).title.should == 'updated ad'
+      end
     end
   end
 
@@ -61,15 +87,13 @@ describe AdvertisementsController do
     context "if user is not an admin" do
 
       it "redirects to advertisements index page" do
-        common_user = User.create(email: "user@example.com", password: '123456')
-        sign_in common_user
+        sign_in @common_user
         put :destroy, { id: @advertisement.id }
         response.should redirect_to advertisements_url
       end  
 
-      it "doesn't destroy advertisement" do
-        common_user = User.create(email: "user@example.com", password: '123456')
-        sign_in common_user
+      it "doesn't destroy advertisement" do       
+        sign_in @common_user
         previous_advertisement_count = Advertisement.count
         put :destroy, { id: @advertisement.id }
         Advertisement.count.should == previous_advertisement_count
@@ -77,9 +101,8 @@ describe AdvertisementsController do
     end
 
     context "if user is an admin" do
-      it "destroys advertisement" do
-        admin_user = User.create(email: "user@example.com", password: '123456', role: 'admin')
-        sign_in admin_user
+      it "destroys advertisement" do        
+        sign_in @admin_user
         expect {
           put :destroy, { id: @advertisement.id }
           }.to change { Advertisement.count }

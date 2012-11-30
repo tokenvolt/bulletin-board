@@ -15,7 +15,4 @@ class User < ActiveRecord::Base
     self.role == "admin"
   end
 
-  def advertiser?
-    self.role == "advertiser"
-  end
 end
