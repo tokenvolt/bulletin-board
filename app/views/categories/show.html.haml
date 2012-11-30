@@ -17,4 +17,3 @@
               %p= advertisement.email
             %td
               %p.pull-right= advertisement.created_at.strftime("%b %d, %H:%M")
-            %td= link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'

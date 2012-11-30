@@ -1,4 +1,6 @@
 class AdvertisementsController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :new]
+
   def index
     @advertisements = Advertisement.order('created_at DESC')
     @categories = Category.all

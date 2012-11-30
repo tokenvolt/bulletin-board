@@ -14,7 +14,7 @@
         %tr
           %th= model_class.human_attribute_name(:title)
           %th= model_class.human_attribute_name(:email)
-          %th.pull-right= model_class.human_attribute_name(:created_at)
+          %th= model_class.human_attribute_name(:created_at)
       %tbody
         - @advertisements.each do |advertisement|
           %tr
@@ -23,7 +23,10 @@
             %td
               %p= advertisement.email
             %td
-              %p.pull-right= advertisement.created_at.strftime("%b %d, %H:%M")
-            %td= link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'
+              %p= advertisement.created_at.strftime("%b %d, %H:%M")
+            - if user_signed_in?
+              %td
+                = link_to "Edit", advertisement_path(advertisement), :method => :put, class: 'btn btn-mini'              
+                = link_to "Destroy", advertisement_path(advertisement), :method => :delete, class: 'btn btn-mini btn-danger'
     .center
       =link_to "New Advertisement", new_advertisement_path, class: 'btn btn-primary'
